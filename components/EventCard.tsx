@@ -1,14 +1,26 @@
+"use client";
+
 import Image from "next/image";
 import type { Event } from "../lib/global";
 import Link from "next/link";
+import posthog from "posthog-js";
 
 interface Props {
   event: Event;
 }
 
 export default function EventCard({ event }: Props) {
+  const handleEventCardClick = () => {
+    posthog.capture("event_card_clicked", {
+      event_id: event.id,
+      event_name: event.name,
+      event_location: event.location,
+      event_date: event.date,
+    });
+  };
+
   return (
-    <Link href={`/event/${event.id}`}>
+    <Link href={`/event/${event.id}`} onClick={handleEventCardClick}>
       <div>
         <div className="w-full aspect-15/10 relative">
           <Image

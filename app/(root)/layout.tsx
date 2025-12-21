@@ -3,7 +3,7 @@ import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
 import "../globals.css";
 import LightRays from "@/components/LightRays";
 import Image from "next/image";
-import Link from "next/link";
+import Navigation from "@/components/Navigation";
 
 const schibstedGrotesk = Schibsted_Grotesk({
   variable: "--font-schibsted-grotesk",
@@ -54,13 +54,7 @@ export default function RootLayout({
               height={36}
             ></Image>
           </div>
-          <nav>
-            <ul>
-              <Link href="/">Home</Link>
-              <Link href="/events">Events</Link>
-              <Link href="/about">About</Link>
-            </ul>
-          </nav>
+          <Navigation />
         </header>
 
         <main>{children}</main>
