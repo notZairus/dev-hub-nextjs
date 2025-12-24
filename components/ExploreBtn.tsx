@@ -2,23 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import posthog from "posthog-js";
-
 const ExploreBtn = () => {
-  const handleExploreClick = () => {
-    posthog.capture("explore_events_clicked", {
-      button_id: "explore-btn",
-      destination: "#events",
-    });
-  };
-
   return (
     <>
-      <button
-        id="explore-btn"
-        className="transition"
-        onClick={handleExploreClick}
-      >
+      <button id="explore-btn" className="transition">
         <Link href="#events">
           <p>Explore Events</p>
           <div>

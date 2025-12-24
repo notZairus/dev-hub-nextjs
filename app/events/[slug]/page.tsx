@@ -30,7 +30,7 @@ async function page({ params }: { params: Promise<{ slug: string }> }) {
           <Image src={event.image} alt={event.title} fill />
         </div>
         <aside className="flex-1">
-          <BookingCard />
+          <BookingCard slug={slug} />
         </aside>
       </section>
 
