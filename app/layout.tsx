@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
-import "../globals.css";
+import "./globals.css";
 import LightRays from "@/components/LightRays";
 import Image from "next/image";
 import Navigation from "@/components/Navigation";
+import Link from "next/link";
 
 const schibstedGrotesk = Schibsted_Grotesk({
   variable: "--font-schibsted-grotesk",
@@ -47,17 +48,19 @@ export default function RootLayout({
 
         <header className="w-full flex items-center justify-between px-5 py-4">
           <div>
-            <Image
-              src="/icons/logo.png"
-              alt="Dev Hub Logo"
-              width={36}
-              height={36}
-            ></Image>
+            <Link href="/">
+              <Image
+                src="/icons/logo.png"
+                alt="Dev Hub Logo"
+                width={36}
+                height={36}
+              ></Image>
+            </Link>
           </div>
           <Navigation />
         </header>
 
-        <main>{children}</main>
+        <main className="w-full md:max-w-9/10">{children}</main>
       </body>
     </html>
   );

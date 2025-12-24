@@ -40,10 +40,10 @@ const EventSchema = new mongoose.Schema<Event>({
         enum: ["online", "offline", "hybrid"],
         required: [true, "mode is required."]
     },
-    agenda: {
+    agenda: [{
         type: String,
         trim: true
-    },
+    }],
     organizer: {
         type: String,
         trim: true,
@@ -59,7 +59,7 @@ const EventSchema = new mongoose.Schema<Event>({
         index: true,
         required: [true, "slug is required."]
     }
-});
+}, { timestamps: true });
 
 EventSchema.pre("save", async function () {
     if (!this.isModified("title")) {
@@ -74,4 +74,4 @@ EventSchema.pre("save", async function () {
 });
 
 
-export default mongoose.model("Event", EventSchema);
+export default mongoose.models.Event || mongoose.model("Event", EventSchema);
