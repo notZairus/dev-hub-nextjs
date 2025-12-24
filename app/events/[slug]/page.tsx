@@ -2,9 +2,11 @@ import { Event } from "@/lib/global";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import EventCard from "@/components/EventCard";
+import { getSimilarEventsBySlug } from "@/lib/actions/events.action";
 
 import Spacer from "@/components/Spacer";
 import InfoIcon from "@/components/InfoIcon";
+import BookingCard from "@/components/BookingCard";
 
 const DEFAULT_URL = process.env.NEXT_PUBLIC_DEFAULT_URL;
 
@@ -12,12 +14,7 @@ async function page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const res = await fetch(`${DEFAULT_URL}/api/events/${slug}`);
   const { event }: { event: Event } = await res.json();
-
-  const res2 = await fetch(`${DEFAULT_URL}/api/events`);
-  const { events } = await res2.json();
-  const relatedEvents = events.filter(
-    (_event: Event) => _event.slug !== event.slug
-  );
+  const similarEvents = await getSimilarEventsBySlug(event.slug);
 
   if (!event) return notFound();
 
@@ -33,25 +30,7 @@ async function page({ params }: { params: Promise<{ slug: string }> }) {
           <Image src={event.image} alt={event.title} fill />
         </div>
         <aside className="flex-1">
-          <div className="w-full bg-[#0d161a] border border-[#1a2d35] min-h-20 rounded-xl p-8">
-            <h2 className="font-bold text-3xl">Book Your Spot</h2>
-            <div className="my-5">
-              <label htmlFor="email" className="text-lg">
-                Email Address
-              </label>
-              <br />
-              <input
-                type="text"
-                placeholder="youemail@example.com"
-                className="border border-[#243b47] outline-none text-xl bg-[#182830] p-3 rounded-lg w-full mt-2"
-              />
-            </div>
-            <div>
-              <button className="w-full bg-white text-black rounded-lg text-xl p-3 font-bold">
-                Submit
-              </button>
-            </div>
-          </div>
+          <BookingCard />
         </aside>
       </section>
 
@@ -104,13 +83,13 @@ async function page({ params }: { params: Promise<{ slug: string }> }) {
       <section className="mb-12">
         <h2 className="font-bold text-4xl">Similar Events</h2>
         <div className="w-full flex md:flex-row flex-col gap-12 mt-4">
-          {relatedEvents.length < 3
-            ? relatedEvents.map((ev: Event) => (
+          {similarEvents.length < 3
+            ? similarEvents.map((ev: Event) => (
                 <div key={event.slug} className="flex-1 md:max-w-1/3 relative">
                   <EventCard event={ev} />
                 </div>
               ))
-            : relatedEvents.slice(0, 3).map((ev: Event) => (
+            : similarEvents.slice(0, 3).map((ev: Event) => (
                 <div key={event.slug} className="flex-1 relative">
                   <EventCard event={ev} />
                 </div>

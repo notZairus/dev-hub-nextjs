@@ -37,10 +37,11 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     await connectDb();
 
-    const events = await Event.find().sort({ createdAt: -1 });
+    const events = await Event.find().sort({ createdAt: -1 }).lean();
+    const safeEvent = JSON.parse(JSON.stringify(events));
 
     return NextResponse.json({
         message: 'successful',
-        events
+        events: safeEvent
     }, { status: 200 });
 }

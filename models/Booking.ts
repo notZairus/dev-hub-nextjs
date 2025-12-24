@@ -17,4 +17,4 @@ const BookingSchema = new mongoose.Schema({
 
 BookingSchema.index({ eventId: 1, email: 1 }, { unique: true });
 
-export default mongoose.model("Booking", BookingSchema);
+export default mongoose.models.Booking || mongoose.model("Booking", BookingSchema);
