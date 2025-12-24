@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
-import "../globals.css";
+import "./globals.css";
 import LightRays from "@/components/LightRays";
 import Image from "next/image";
 import Navigation from "@/components/Navigation";
@@ -57,7 +57,7 @@ export default function RootLayout({
           <Navigation />
         </header>
 
-        <main>{children}</main>
+        <main className="w-full md:max-w-9/10">{children}</main>
       </body>
     </html>
   );

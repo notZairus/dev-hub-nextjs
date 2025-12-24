@@ -20,7 +20,7 @@ export default function EventCard({ event }: Props) {
   };
 
   return (
-    <Link href={`/event/${event.id}`} onClick={handleEventCardClick}>
+    <Link href={`/events/${event.slug}`} onClick={handleEventCardClick}>
       <div>
         <div className="w-full aspect-15/10 relative">
           <Image

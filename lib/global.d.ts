@@ -1,5 +1,5 @@
 export interface Event {
-  id?: string;
+  _id?: string;
   title: string;
   description: string;
   image: string;
@@ -8,7 +8,7 @@ export interface Event {
   time: string;
   audience: string;
   mode: "online" | "offline" | "hybrid"; // Using a literal union for stricter typing
-  agenda?: string; // Optional field
+  agenda?: string[]; // Optional field
   organizer: string;
   tags: string[];
   slug: string;
@@ -26,3 +26,4 @@ export interface CachedType {
 declare global {
   var mongoose: CachedType; // the name of the variable here will be the property of globalThis???
 }
+

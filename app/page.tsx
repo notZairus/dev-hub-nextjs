@@ -1,9 +1,14 @@
 import ExploreBtn from "@/components/ExploreBtn";
 import Spacer from "@/components/Spacer";
 import EventCard from "@/components/EventCard";
-import { events } from "../../lib/constants";
+import { Event } from "@/lib/global";
 
-const Page = () => {
+const DEFAULT_URL = process.env.NEXT_PUBLIC_DEFAULT_URL as string;
+
+const Page = async () => {
+  const result = await fetch(`${DEFAULT_URL}/api/events`);
+  const { events } = await result.json();
+
   return (
     <section>
       <div>
@@ -24,9 +29,9 @@ const Page = () => {
 
       <div>
         <h3>Featured Events</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 mt-4 gap-8">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} />
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-4 gap-12">
+          {events.map((event: Event) => (
+            <EventCard key={event.slug} event={event} />
           ))}
         </div>
       </div>
