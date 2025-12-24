@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { bookEvent } from "@/lib/actions/bookings.action";
 
-export default function BookingCard() {
-  const [bookings, setBookings] = useState(10);
+export default function BookingCard({ slug }: { slug: string }) {
+  const [bookings, setBookings] = useState();
   const [email, setEmail] = useState<string>("");
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -12,10 +13,11 @@ export default function BookingCard() {
 
     setEmail("");
 
-    setTimeout(() => {
-      setSubmitted(true);
-      setBookings((prev) => prev + 1);
-    }, 2000);
+    await bookEvent(slug, email);
+
+    // why the code past it is not executing?
+    setBookings((prev) => prev + 1);
+    setSubmitted(true);
   };
 
   return (
