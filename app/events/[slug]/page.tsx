@@ -1,19 +1,20 @@
-import { Event } from "@/lib/global";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import EventCard from "@/components/EventCard";
 import { getSimilarEventsBySlug } from "@/lib/actions/events.action";
+import connectDb from "@/lib/db";
+import EventModel from "@/models/Event";
+import { Event } from "@/lib/global";
 
 import Spacer from "@/components/Spacer";
 import InfoIcon from "@/components/InfoIcon";
 import BookingCard from "@/components/BookingCard";
 
-const DEFAULT_URL = process.env.NEXT_PUBLIC_DEFAULT_URL;
-
 async function page({ params }: { params: Promise<{ slug: string }> }) {
+  await connectDb();
   const { slug } = await params;
-  const res = await fetch(`${DEFAULT_URL}/api/events/${slug}`);
-  const { event }: { event: Event } = await res.json();
+  const _event = await EventModel.findOne({ slug: slug });
+  const event: Event = JSON.parse(JSON.stringify(_event));
   const similarEvents = await getSimilarEventsBySlug(event.slug);
 
   if (!event) return notFound();
@@ -72,7 +73,7 @@ async function page({ params }: { params: Promise<{ slug: string }> }) {
       <section>
         <h2 className="font-bold text-3xl">Agenda</h2>
         <ul className="mt-4 space-y-4 list-disc list-inside pl-2 w-full md:w-2/3">
-          {event.agenda?.map((agenda) => (
+          {event.agenda?.map((agenda: string) => (
             <li key={agenda}>{agenda}</li>
           ))}
         </ul>

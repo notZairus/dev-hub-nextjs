@@ -4,7 +4,7 @@ import { useState } from "react";
 import { bookEvent } from "@/lib/actions/bookings.action";
 
 export default function BookingCard({ slug }: { slug: string }) {
-  const [bookings, setBookings] = useState();
+  const [bookings, setBookings] = useState<number>(10);
   const [email, setEmail] = useState<string>("");
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -15,8 +15,7 @@ export default function BookingCard({ slug }: { slug: string }) {
 
     await bookEvent(slug, email);
 
-    // why the code past it is not executing?
-    setBookings((prev) => prev + 1);
+    setBookings(bookings + 1);
     setSubmitted(true);
   };
 

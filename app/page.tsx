@@ -1,13 +1,13 @@
 import ExploreBtn from "@/components/ExploreBtn";
 import Spacer from "@/components/Spacer";
 import EventCard from "@/components/EventCard";
-import { Event } from "@/lib/global";
-
-const DEFAULT_URL = process.env.NEXT_PUBLIC_DEFAULT_URL as string;
+import Event from "@/models/Event";
+import connectDb from "@/lib/db";
 
 const Page = async () => {
-  const result = await fetch(`${DEFAULT_URL}/api/events`);
-  const { events } = await result.json();
+  await connectDb();
+  const _events = await Event.find().sort({ createdAt: -1 }).lean();
+  const events = JSON.parse(JSON.stringify(_events));
 
   return (
     <section>
